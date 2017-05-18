@@ -50,9 +50,27 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     double vx = x_[2];
     double vy = x_[3];
     
+    // Calculate ro
     double ro = sqrt(pow(px, 2) + pow(py, 2));
-    double phi = atan2(py, px);
-    double ro_d = (px * vx + py * vy) / fmax(.0001, ro);
+    
+    // Calculate phi -> check size
+    double phi = .001;
+    if(fabs(px) > .001) {
+        phi = atan2(py, px);
+    }
+
+    // Calculate ro_d -> check size
+    double dif;
+    
+    if (ro < .001){
+        dif = .001;
+        
+    }
+    else {
+        dif = ro;
+    }
+    
+    double ro_d = (px * vx + py * vy) / dif;
     
     VectorXd hx = VectorXd(3);
     hx << ro, phi, ro_d;
@@ -60,13 +78,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     // prediction error
     VectorXd y = z - hx;
     
+    // Keep within -PI and +PI
     while(y[1] > M_PI || y[1] < -M_PI)
     {
         if(y[1] > M_PI) {
-            y[1] -= 2 * M_PI;
+            y[1] =  y[1] - 2 * M_PI;
         }
         else {
-            y[1] += 2 * M_PI;
+            y[1] = y[1] + 2 * M_PI;
         }
     }
     
