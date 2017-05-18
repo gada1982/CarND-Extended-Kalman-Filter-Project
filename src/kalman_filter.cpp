@@ -33,9 +33,6 @@ void KalmanFilter::Update(const VectorXd &z) {
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
     
-    // TODO handel if values to small or big!
-    // TODO float / float ????
-    
     double px = x_[0];
     double py = x_[1];
     double vx = x_[2];
@@ -53,6 +50,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     // Calculate ro_d -> check size
     double dif;
     
+    // Check size
     if (ro < .001){
         dif = .001;
         
@@ -70,7 +68,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     VectorXd y = z - hx;
     
     // Keep within -PI and +PI
-    while(y[1] > M_PI || y[1] < -M_PI)
+    while(y[1] < -M_PI || y[1] > M_PI)
     {
         if(y[1] > M_PI) {
             y[1] =  y[1] - 2 * M_PI;

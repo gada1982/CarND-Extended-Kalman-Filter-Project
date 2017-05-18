@@ -44,6 +44,10 @@ FusionEKF::FusionEKF() {
     noise_ax = 9.0;
     noise_ay = 9.0;
     
+    // Configure which sensor should be used (Rader, Laser or both)
+    // This is for testing the possible accurancy with only one sensor-type used
+    // For the final testing both sensor have to be used, because this gives the best result
+    
     // Use LIDAR/Laser Data
     useLaser = true;
     
@@ -109,6 +113,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
             // Can't initialize measurement data
             // Measurement type and used filter are not equivalent
             // Check FusionEKF::FusionEKF() for configuration
+            // Both sensor types are disabled if you get here
             return;
         }
         
@@ -170,6 +175,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
         // Nothing to update
         // Measurement type and used filter are not equivalent
         // Check FusionEKF::FusionEKF() for configuration
+        // Both sensor types are disabled if you get here
     }
     
     // print the output

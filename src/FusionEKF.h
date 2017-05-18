@@ -49,6 +49,10 @@ private:
     float noise_ax;
     float noise_ay;
     
+    // Configure which sensor should be used (Rader, Laser or both)
+    // This is for testing the possible accurancy with only one sensor-type used
+    // For the final testing both sensor have to be used, because this gives the best result
+    
     // Use LIDAR/Laser Data
     bool useLaser;
     
