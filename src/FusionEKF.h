@@ -45,8 +45,16 @@ private:
     Eigen::MatrixXd H_laser_;
     Eigen::MatrixXd Hj_;
     
+    // Process Noise
     float noise_ax;
     float noise_ay;
+    
+    // Use LIDAR/Laser Data
+    bool useLaser;
+    
+    // Use RADAR Data
+    bool useRadar;
+
 };
 
 #endif /* FusionEKF_H_ */
